@@ -34,5 +34,4 @@ install_or_update_package ansible
 
 echo 'Rock & Roll, lets do this.'
 
-ansible-galaxy install -r requirements.yml
-ansible-playbook macbook.yml
+ansible-playbook macstrap.yml
