@@ -1,7 +1,6 @@
 ---
 - hosts: localhost
-
-  var_files:
+  vars_files:
     - vars/brew.yml
     - vars/dock.yml
     - vars/dotfiles.yml
