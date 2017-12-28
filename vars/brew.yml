@@ -1,0 +1,32 @@
+---
+homebrew_taps:
+  - homebrew/core
+  - caskroom/cask
+  - caskroom/fonts
+
+homebrew_installed_packages:
+  - htop
+  - dockutil
+  - git
+  - ansible
+  - bash
+  - npm
+  - zsh 
+  - zsh-completions
+  - terraform
+  - ruby 
+  - python
+  - tree
+
+homebrew_cask_apps:
+  - google-chrome
+  - slack
+  - docker
+  - spotify
+  - visual-studio-code
+  - divvy
+  - private-internet-access
+  - tower
+  - font-hack-nerd-font
+  - font-sharetechmono-nerd-font-mono
+  - fantastical

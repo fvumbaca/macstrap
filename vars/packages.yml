@@ -1,0 +1,10 @@
+---
+gem_packages: []
+#   - name: bundler
+#     state: present # present/absent/latest, default: present
+
+npm_packages: []
+ #  - name: hpm-cli
+ #    state: present # present/absent/latest, default: present
+
+pip_packages: []

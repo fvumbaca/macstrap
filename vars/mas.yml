@@ -1,0 +1,4 @@
+---
+mas_installed_apps:
+  - { id: 425264550, name: "Blackmagic Disk Speed Test (3.0)" }
+  - { id: 411643860, name: "DaisyDisk (4.3.2)" }    

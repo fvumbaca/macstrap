@@ -1,0 +1,6 @@
+---
+visual_studio_extensions:
+  - zhuangtongfa.material-theme
+  - PKief.material-icon-theme
+  - PeterJausovec.vscode-docker
+  - formulahendry.code-runner

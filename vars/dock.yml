@@ -1,0 +1,42 @@
+---
+dockitems_to_remove:
+  - Contacts
+  - Launchpad
+  - Notes
+  - Reminders
+  - Maps
+  - Photos
+  - Messages
+  - FaceTime
+  - iTunes
+  - Calendar
+  - Siri
+  - iBooks
+  - App Store
+  - Safari
+
+dockitems_to_persist:
+  - name: Google Chrome
+    path: "/Applications/Google Chrome.app"
+    pos: 1
+  - name: Slack
+    path: /Applications/Slack.app
+    pos: 2
+  - name: Spotify
+    path: /Applications/Spotify.app
+    pos: 3
+  - name: Terminal
+    path: /Applications/Utilities/Terminal.app
+    pos: 4
+  - name: Visual Studio Code
+    path: "/Applications/Visual Studio Code.app"
+    pos: 5
+  - name: Tower
+    path: "/Applications/Tower.app"
+    pos: 6
+  - name: Mail
+    path: "/Applications/Mail.app"
+    pos: 7
+  - name: Fantastical 2
+    path: "/Applications/Fantastical 2.app"
+    pos: 

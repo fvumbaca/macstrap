@@ -1,0 +1,20 @@
+---
+- hosts: localhost
+
+  var_files:
+    - vars/brew.yml
+    - vars/dock.yml
+    - vars/dotfiles.yml
+    - vars/mas.yml
+    - vars/packages.yml
+    - vars/vscode.yml
+    
+  roles:
+    - ansible
+    - brew
+    - dock
+    - mas
+    - packages
+    - dotfiles
+    - vscode
+    - shell
