@@ -17,6 +17,9 @@ homebrew_installed_packages:
   - ruby 
   - python
   - tree
+  - tmux
+  - shpotify
+  - reattach-to-user-namespace
 
 homebrew_cask_apps:
   - google-chrome

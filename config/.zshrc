@@ -24,6 +24,9 @@ zsh_wifi_signal(){
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
+# zsh tmux settings
+#ZSH_TMUX_AUTOSTART='true'
+
 DEFAULT_FOREGROUND=006 DEFAULT_BACKGROUND=235
 DEFAULT_COLOR=$DEFAULT_FOREGROUND
 
@@ -211,12 +214,13 @@ zplug "seebi/dircolors-solarized", ignore:"*", as:plugin
 #zplug "plugins/nanoc", from:oh-my-zsh, if:"which nanoc"
 #zplug "plugins/vi-mode", from:oh-my-zsh
 
-zplug "plugins/git",    from:oh-my-zsh, if:"which git"
-zplug "plugins/go",     from:oh-my-zsh, if:"which go"
-zplug "plugins/golang", from:oh-my-zsh, if:"which go"
-zplug "plugins/nmap",   from:oh-my-zsh, if:"which nmap"
-zplug "plugins/sudo",   from:oh-my-zsh, if:"which sudo"
-zplug "plugins/tmux",   from:oh-my-zsh, if:"which tmux"
+zplug "plugins/git",         from:oh-my-zsh, if:"which git"
+zplug "plugins/go",          from:oh-my-zsh, if:"which go"
+zplug "plugins/golang",      from:oh-my-zsh, if:"which go"
+zplug "plugins/nmap",        from:oh-my-zsh, if:"which nmap"
+zplug "plugins/sudo",        from:oh-my-zsh, if:"which sudo"
+zplug "plugins/tmux",        from:oh-my-zsh, if:"which tmux"
+zplug "plugins/history",     from:oh-my-zsh
 
 # Supports oh-my-zsh plugins and the like
 if [[ $OSTYPE = (linux)* ]]; then

@@ -9,7 +9,7 @@
 
 - name: Link dotfiles into home folder.
   file:
-    src: "{{ dotfiles_source }}/{{ item.file }}"
+    src: "{{playbook_dir}}/{{ dotfiles_dir }}/{{ item.file }}"
     dest: "{{ item.dest }}/{{ item.file }}"
     state: link
   become: no

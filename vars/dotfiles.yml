@@ -1,5 +1,5 @@
 ---
-dotfiles_source: "config/"
+dotfiles_dir: "config"
 dotfiles_files:
   - { dest: "~", file: ".bash_profile" }
   - { dest: "~", file: ".gitignore" }
@@ -7,6 +7,8 @@ dotfiles_files:
   - { dest: "~", file: ".inputrc" }
   - { dest: "~", file: ".osx" }
   - { dest: "~", file: ".vimrc" }
+  - { dest: "~", file: ".tmux.conf" }
+  - { dest: "~", file: ".tmux.conf.local" }
   - { dest: "~", file: ".zshrc" }
   - { dest: "~", file: ".ansible.cfg" }
   - { dest: "~", file: ".hyper.js" }
