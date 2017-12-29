@@ -1,3 +1,5 @@
+export ANSIBLE_STDOUT_CALLBACK=debug 
+
 function install_or_update_package {
     pkg=$1
     

@@ -30,3 +30,5 @@ homebrew_cask_apps:
   - font-hack-nerd-font
   - font-sharetechmono-nerd-font-mono
   - fantastical
+  - 1password
+  - calibre
