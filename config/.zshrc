@@ -301,6 +301,7 @@ fi
 
 # Globs
 alias brewup='brew update; brew upgrade; brew prune; brew cleanup; brew doctor'
+alias dev='cd ~/Library/Mobile\ Documents/com~apple~CloudDocs/Development'
 
 # Generic command adaptations.
 alias grep='() { $(whence -p grep) --color=auto $@ }'
