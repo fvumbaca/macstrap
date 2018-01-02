@@ -5,7 +5,7 @@
   changed_when: false
  
 - name: Ensure custom Terminal profile is added.
-  shell: open ~/dotfiles/Solarized-Dark.terminal
+  shell: open {{playbook_dir}}/config/Solarized-Dark.terminal
   changed_when: false
   when: "'Solarized-Dark' not in terminal_theme.stdout"
  
