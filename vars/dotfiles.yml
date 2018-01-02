@@ -12,4 +12,4 @@ dotfiles_files:
   - { dest: "~", file: ".zshrc" }
   - { dest: "~", file: ".ansible.cfg" }
   - { dest: "~", file: ".hyper.js" }
-  - { dest: "~/Library/Application\ Support/Code/User/", file: "settings.json" }
+  - { dest: "~/Library/Application\ Support/Code/User", file: "settings.json" }
