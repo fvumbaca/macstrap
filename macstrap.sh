@@ -33,6 +33,7 @@ if [ $? -ne 0 ] ; then
 fi
 
 install_or_update_package ansible
+install_or_update_package git
 
 echo 'Rock & Roll, lets do this.'
 
