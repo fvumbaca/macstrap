@@ -35,5 +35,5 @@ fi
 install_or_update_package ansible
 
 echo 'Rock & Roll, lets do this.'
-
+source ~/.bash_profile
 ansible-playbook macstrap.yml
