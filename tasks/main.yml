@@ -1,0 +1,218 @@
+---
+- name: check for brew
+  shell: which brew
+
+- name: check for Mac App Store if there are store packages to be installed
+  shell: which mas
+  when: "'app-store' in packages|map(attribute='source')|join(',')"
+
+- name: ensure app_store_email is defined
+  fail: msg="app_store_email is not defined" 
+  when: 
+    - app_store_email is not defined
+    - "'app-store' in packages|map(attribute='source')|join(',')"
+
+- name: remove all items from the dock
+  command: dockutil --remove all --no-restart
+  changed_when: false
+
+- name: add apps to the dock
+  command: "dockutil --add '{{ item.path }}' --no-restart"
+  changed_when: false
+  with_items: "{{ dock_apps }}"
+
+- name: add folders to the dock
+  command: "dockutil --add '{{ item.source | default(item) }}' --view {{ item.view | default('fan') }} --display {{ item.display | default('stack') }} --sort {{ item.sort | default('dateadded') }} --no-restart"
+  changed_when: false
+  with_items: "{{ dock_folders }}"
+
+- name: Fix order
+  shell: dockutil --move '{{ item.name }}' --position {{ item.pos }}
+  changed_when: false
+  with_items: "{{ dock_apps }}"
+  
+
+# Tap.
+- name: Ensure configured taps are tapped.
+  homebrew_tap: 
+    name: "{{ item.name | mandatory }}"
+    state: "{{item.state | default(omit) }}"
+  with_items: "{{ packages }}"
+  when: item.source == 'brew-tap' 
+
+# Cask.
+- name: Modify requested cask applications.
+  homebrew_cask:
+    name: "{{ item.name | mandatory }}"
+    state: "{{item.state | default(omit) }}"
+    install_options: "appdir={{ homebrew_cask_appdir }}"
+  with_items: "{{ packages }}"
+  when: item.source == 'brew-cask' 
+
+# Brew.
+- name: Modify requested homebrew packages.
+  homebrew:
+    name: "{{ item.name | mandatory }}"
+    install_options: "{{ item.install_options | default(omit) }}"
+    state: "{{item.state | default(omit) }}"
+  with_items: "{{ packages }}"
+  when: item.source == 'brew' 
+
+# Mac App Store.
+- name: Get MAS account status
+  shell: 'mas account'
+  register: mas_account_result
+  failed_when: mas_account_result.rc > 1
+  changed_when: false
+  when: "'app-store' in packages|map(attribute='source')|join(',')"
+
+- name: Sign in to MAS when email is provided, and complete password and 2FA using dialog.
+  shell: 'mas signin "{{ app_store_email }}" --dialog'
+  register: mas_signin_result
+  when: 
+    - "'app-store' in packages|map(attribute='source')|join(',')"
+    - app_store_signin_dialog
+    - mas_account_result.rc == 1
+
+- name: Ensure configured MAS packages are installed.
+  command: mas install "{{ item.id }}"
+  with_items: "{{ packages }}"
+  when: item.source == 'app-store' 
+
+# NPM
+- name: Install global NPM packages.
+  npm:
+    name: "{{ item.1.name | mandatory }}"
+    state: "{{ item.1.state | default('present') }}"
+    version: "{{ item.1.version | default(omit) }}"
+    global: yes
+    executable: "{{ item.1.executable | default(omit) }}"
+  with_subelements: 
+    - "{{ packages }}"
+    - packages
+    - skip_missing: yes
+  when: item.0.name == 'node'
+
+# PIP2
+- name: Install global Pip 2 packages.
+  pip:
+    name: "{{ item.1.name | mandatory }}"
+    state: "{{ item.1.state | default('present') }}"
+    version: "{{ item.1.version | default(omit) }}"
+    executable: "pip2.7"
+  with_subelements: 
+    - "{{ packages }}"
+    - packages
+    - skip_missing: yes
+  when: item.0.name == 'python'
+
+# PIP3
+- name: Install global Pip 3 packages.
+  pip:
+    name: "{{ item.1.name | mandatory }}"
+    state: "{{ item.1.state | default('present') }}"
+    version: "{{ item.1.version | default(omit) }}"
+    executable: "pip3.3"
+  with_subelements: 
+    - "{{ packages }}"
+    - packages
+    - skip_missing: yes
+  when: item.0.name == 'python3'
+
+# Ruby 
+- name: Install global Ruby gems.
+  gem:
+    name: "{{ item.1.name | mandatory }}"
+    state: "{{ item.1.state | default('present') }}"
+    version: "{{ item.1.version | default(omit) }}"
+    user_install: no
+    executable: "{{ item.1.executable | default(omit) }}"
+  with_subelements: 
+    - "{{ packages }}"
+    - packages
+    - skip_missing: yes
+  when: item.0.name == 'ruby'
+
+# Defaults.
+- name: Set application plists
+  osx_defaults:
+    domain: "{{ item.1.domain }}"
+    key: "{{ item.1.key }}"
+    type: "{{ item.1.type }}"
+    value: "{{ item.1.value }}"
+    state: "{{ item.1.state | default(omit) }}"
+  become: "{{ item.1.become | default(false) }}"
+  with_subelements: 
+    - "{{ packages }}"
+    - plists
+    - skip_missing: yes
+
+- name: Ensure all configured dotfiles are links.
+  shell: "ls -F {{ item.1.dest }}"
+  register: existing_dotfile_info
+  failed_when: false
+  check_mode: no
+  changed_when: false
+  with_subelements: 
+    - "{{ packages }}"
+    - dotfiles
+    - skip_missing: yes
+
+- name: Link dotfiles to destination folder.
+  file:
+    src: "{{ item.1.src }}"
+    dest: "{{ item.1.dest }}"
+    state: link
+  become: no
+  with_subelements: 
+    - "{{ packages }}"
+    - dotfiles
+    - skip_missing: yes
+
+- name: Ensure all configured licenses are links.
+  shell: "ls -F {{ item.1.dest }}"
+  register: existing_dotfile_info
+  failed_when: false
+  check_mode: no
+  changed_when: false
+  with_subelements: 
+    - "{{ packages }}"
+    - licenses
+    - skip_missing: yes
+
+- name: Link licenses to destination folder.
+  file:
+    src: "{{ item.1.src }}"
+    dest: "{{ item.1.dest }}"
+    state: link
+  become: no
+  with_subelements: 
+    - "{{ packages }}"
+    - licenses
+    - skip_missing: yes
+
+- name: Install the Visual Studio Code extensions
+  shell: code --install-extension '{{ item.1.name }}'
+  with_subelements: 
+    - "{{ packages }}"
+    - extensions
+    - skip_missing: yes
+  when: item.0.name == 'visual-studio-code'
+
+- name: Get current Terminal profile.
+  shell: defaults read com.apple.Terminal 'Default Window Settings'
+  register: terminal_theme
+  changed_when: false
+ 
+- name: Ensure custom Terminal profile is added.
+  shell: open "{{terminal_theme_file}}"
+  changed_when: false
+  when: "'Solarized-Dark' not in terminal_theme.stdout"
+ 
+- name: Ensure custom Terminal profile is set as default.
+  shell: "{{ item }}"
+  with_items:
+    - defaults write com.apple.Terminal 'Default Window Settings' -string 'Solarized-Dark'
+    - defaults write com.apple.Terminal 'Startup Window Settings' -string 'Solarized-Dark'
+  changed_when: false
+  when: "'Solarized Dark ansi' not in terminal_theme.stdout"
