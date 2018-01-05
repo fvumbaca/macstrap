@@ -70,7 +70,7 @@
     "window.zoomLevel": 0,
     "workbench.colorTheme": "One Dark Pro",
     "workbench.iconTheme": "material-icon-theme",
-    "terminal.integrated.fontFamily": "Knack Nerd Font, Menlo,DejaVu Sans Mono, Consolas,Lucida Console, monospace"
+    "terminal.integrated.fontFamily": "Knack Nerd Font, Menlo,DejaVu Sans Mono, Consolas,Lucida Console, monospace",
     "terminal.external.osxExec": "Hyper.app",
     "telemetry.enableTelemetry": false,
     "telemetry.enableCrashReporter": false,
@@ -95,7 +95,7 @@
     "git.countBadge": "all",
     "css.validate": true,
     "scss.validate": true,
-    "workbench.iconTheme": "seti",
+//Duplicate    "workbench.iconTheme": "seti",
     "jsAutolint.defaultLinters": ["eslint", "standard"],
     "jsAutolint.enable": true,
     "typescript.check.npmIsInstalled": false
