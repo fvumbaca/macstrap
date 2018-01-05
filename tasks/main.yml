@@ -12,26 +12,6 @@
     - app_store_email is not defined
     - "'app-store' in packages|map(attribute='source')|join(',')"
 
-- name: remove all items from the dock
-  command: dockutil --remove all --no-restart
-  changed_when: false
-
-- name: add apps to the dock
-  command: "dockutil --add '{{ item.path }}' --no-restart"
-  changed_when: false
-  with_items: "{{ dock_apps }}"
-
-- name: add folders to the dock
-  command: "dockutil --add '{{ item.source | default(item) }}' --view {{ item.view | default('fan') }} --display {{ item.display | default('stack') }} --sort {{ item.sort | default('dateadded') }} --no-restart"
-  changed_when: false
-  with_items: "{{ dock_folders }}"
-
-- name: Fix order
-  shell: dockutil --move '{{ item.name }}' --position {{ item.pos }}
-  changed_when: false
-  with_items: "{{ dock_apps }}"
-  
-
 # Tap.
 - name: Ensure configured taps are tapped.
   homebrew_tap: 
@@ -216,3 +196,23 @@
     - defaults write com.apple.Terminal 'Startup Window Settings' -string 'Solarized-Dark'
   changed_when: false
   when: "'Solarized Dark ansi' not in terminal_theme.stdout"
+
+- name: remove all items from the dock
+  command: dockutil --remove all --no-restart
+  changed_when: false
+
+- name: add apps to the dock
+  command: "dockutil --add '{{ item.path }}' --no-restart"
+  changed_when: false
+  with_items: "{{ dock_apps }}"
+
+- name: add folders to the dock
+  command: "dockutil --add '{{ item.source | default(item) }}' --view {{ item.view | default('fan') }} --display {{ item.display | default('stack') }} --sort {{ item.sort | default('dateadded') }} --no-restart"
+  changed_when: false
+  with_items: "{{ dock_folders }}"
+
+- name: Fix order
+  shell: dockutil --move '{{ item.name }}' --position {{ item.pos }}
+  changed_when: false
+  with_items: "{{ dock_apps }}"
+  
