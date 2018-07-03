@@ -12,6 +12,14 @@
     - app_store_email is not defined
     - "'app-store' in packages|map(attribute='source')|join(',')"
 
+# Scaffold dirs
+- name: Scaffold package dirs
+  file: path="{{ item.1 }}" state=directory
+  with_subelements:
+    - "{{ packages }}"
+    - scaffold_dirs
+    - skip_missing: yes
+
 # Tap.
 - name: Ensure configured taps are tapped.
   homebrew_tap: 
